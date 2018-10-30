@@ -1,0 +1,1 @@
+# authz for istio-demo

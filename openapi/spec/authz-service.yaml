@@ -1,0 +1,104 @@
+---
+swagger: "2.0"
+info:
+  description: "authz service for istio demo\n"
+  version: "1.0.0"
+  title: "authz"
+  termsOfService: ""
+  contact:
+    name: ""
+    email: ""
+host: "authz"
+basePath: "/authz/v1"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /authorize:
+    post:
+      tags:
+      - "authorization"
+      summary: "Authorize a request"
+      operationId: "Authorize"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/AuthorizationRequest"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+            properties:
+              allow:
+                type: "string"
+        400:
+          description: "Status 400"
+          schema:
+            $ref: "#/definitions/ErrorCode"
+        401:
+          description: "Status 401"
+          schema:
+            $ref: "#/definitions/ErrorCode"
+        403:
+          description: "Status 403"
+          schema:
+            $ref: "#/definitions/ErrorCode"
+        500:
+          description: "Status 500"
+          schema:
+            $ref: "#/definitions/ErrorCode"
+  /health:
+    get:
+      summary: "health"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+definitions:
+  ErrorCode:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+  AuthorizationRequest:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      method:
+        type: "string"
+      resource_url:
+        type: "string"
+      resource:
+        type: "object"
+      context:
+        type: "object"
+  AuthorizationResult:
+    type: "object"
+    properties:
+      allow:
+        type: "boolean"
+      permitted_companies:
+        type: "array"
+        items:
+          type: "string"
+      permitted_stores:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            company_id:
+              type: "string"
+            store_ids:
+              type: "array"
+              items:
+                type: "string"
