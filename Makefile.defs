@@ -1,0 +1,17 @@
+.ONESHELL:
+
+SHELL := /bin/bash
+PROJECT=$(shell basename ${PWD})
+INTERFACE=$(shell netstat -r | head -n 3 | tail -n 1 | awk '{print $$NF}')
+IP=$(shell ifconfig ${INTERFACE} | grep inet | grep -v inet6 | awk '{print $$2}')
+
+PROJECT_NAME = authzservice
+PROJECT_CAPITAL_NAME = AuthzService
+
+OPENAPI_SPEC_FILE = ./openapi/spec/authz-service.yaml
+OPENAPI_GEN_DIR = ./openapi/gen/authzservice/
+
+VERSION = $(shell cat $(dir $(lastword $(MAKEFILE_LIST)))/VERSION)
+GIT_BRANCH = $(shell git branch | grep "*" | cut -d' ' -f2)
+GIT_VERSION = $(shell git show -s --format='format:%h %aI')
+BUILD ?= $(VERSION) $(GIT_BRANCH) $(GIT_VERSION) $(shell go version)

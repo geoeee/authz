@@ -6,8 +6,8 @@ info:
   title: "authz"
   termsOfService: ""
   contact:
-    name: ""
-    email: ""
+    name: "Joey Zhang"
+    email: "me@zhangzhoujian.com"
 host: "authz"
 basePath: "/authz/v1"
 schemes:
